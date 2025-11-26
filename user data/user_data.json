@@ -1,0 +1,11 @@
+{
+    "name": "",
+    "class": "",
+    "level": 1,
+    "hp": 10,
+    "stats": {
+        "attack": 10,
+        "defense": 3,
+        "speed": 5
+    }
+}
