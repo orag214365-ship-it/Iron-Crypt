@@ -25,24 +25,6 @@ types_of_classes = ["Warrior", "Mage", "Archer",
                     "Tank", "Shaman", "Summoner", "Wildcard"]
 enemy_level = random.choice([user_data["level"] - 0 if user_data["level"] ==
                             1 else user_data["level"] - 1, user_data["level"] - 0 if user_data["level"] < 3 else user_data["level"] - 3, user_data["level"] + 1, user_data["level"] + 2])
-moves = {
-    "punch": {
-        "description": "The most basic move does a bit of damage",
-        "move_damage": 10
-    },
-    "kick": {
-        "description": "Another very basic move does a bit of damage",
-        "move_damage": 10
-    },
-    "bite": {
-        "description": "You lunge forward biting your enemy",
-        "move_damage": 10
-    },
-    "arrow": {
-        "description": "You use a bow and arrow to attack",
-        "move_damage": 1
-    }
-}
 user_moves = ["punch", "kick"]
 invalid_command_prompt = "Please type a valid command. (Type ? for a list of commands"
 enemy_attack = random.randint(
