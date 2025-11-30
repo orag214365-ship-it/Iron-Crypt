@@ -1,25 +1,24 @@
 
 import random
-from variables import user_moves, invalid_command_prompt, enemy, moves, user_data
-from other import close_confirmation, clear_terminal, deal_damage
+from variables import user_moves, invalid_command_prompt, enemy, moves, user_data, base_commands, base_command_description
+from other import close_confirmation, clear_terminal, deal_damage, damage_formula
 
 
 def base_combat_input():
     while True:
         user_input = input(
             "What do you want to do? (Type ? for a list of commands) >> ").lower()
-        if user_input not in ["close", "cl", "?", "help", "h", "attack", "a", "run", "r", "clear", "c"]:
+        if user_input not in base_commands and user_input not in ["attack", "a", "run", "r", "info", "i"]:
             print(invalid_command_prompt)
         elif user_input in ["close", "cl"]:
             close_confirmation()
         elif user_input in ["clear", "c"]:
             clear_terminal()
         elif user_input in ["?", "help", "h"]:
-            print('"Close, cl": closes the game\n'
-                  '"?, help, h": shows this list\n'
-                  '"attack, a": do an attack\n'
+            print(base_command_description)
+            print('"attack, a": do an attack\n'
                   '"run, r": attempt to run away\n'
-                  '"clear, c": clears the terminal')
+                  '"info, i" shows info about the enemy')
         elif user_input in ["run", "r"]:
             if input("Are you sure? (Anything other than yes will be counted as no) >> ").lower() == "yes":
                 if random.randint(0, 100) > 60:
@@ -32,6 +31,13 @@ def base_combat_input():
                 continue
         elif user_input in ["attack", "a"]:
             return "attack"
+        elif user_input in ["info", "i"]:
+            for k, v in enemy.items():
+                if type(v) == dict:
+                    for k, v in enemy["stats"].items():
+                        print(f"{k}: {v}")
+                else:
+                    print(f"{k}: {v}")
 
 
 def attack_combat_input():
@@ -39,11 +45,15 @@ def attack_combat_input():
         user_input = input(
             "What move do you want to use? (type ? for a list of commands) >> ").lower()
         if user_input in user_moves:
-            deal_damage(enemy, round((moves[user_input]["move_damage"] * (user_data["stats"]["attack"] ** 1.1)) / (
-                enemy["stats"]["defense"] ** 0.9)))
-            print(f"Used {user_input} enemy hp is now {enemy["hp"]}")
-            break
-        elif user_input not in [user_moves, "close", "cl", "cancel", "ca", "clear", "c", "?", "help", "h", "show", "s"]:
+            deal_damage(enemy, damage_formula('enemy',
+                                              enemy["stats"]["defense"], user_data["stats"]["attack"], moves[user_input]["move_damage"]))
+            print(
+                f"Used {user_input} enemy hp is now {0 if enemy['hp'] < 1 else enemy['hp']}")
+            if enemy["hp"] < 1:
+                print(f"You beat the {enemy["name"]}!")
+                break
+            return 'attacked'
+        elif user_input not in user_moves and user_input not in base_commands and user_input not in ["cancel", "ca", "?", "show", "s", "info", "i"]:
             print(invalid_command_prompt)
         elif user_input in ["close", "cl"]:
             close_confirmation()
@@ -52,14 +62,16 @@ def attack_combat_input():
         elif user_input in ["clear", "c"]:
             clear_terminal()
         elif user_input in ["?", "help", "h"]:
-            print('"close, cl": closes the program\n'
-                  '"cancel, ca": go back\n'
-                  '"clear, c": clears the terminal\n'
-                  '"?, help, h": shows this list\n'
-                  '"show, s": shows moves you can use'
-                  )
+            print(base_command_description)
+            print('"cancel, c": cancel doing an attack\n'
+                  '"show, "s: shows moves you can use\n'
+                  '"info, i": shows info about the enemy')
         elif user_input in ["show", "s"]:
             print(f"You can use {', '.join(user_moves)}")
-
-
-attack_combat_input()
+        elif user_input in ["info", "i"]:
+            for k, v in enemy.items():
+                if type(v) == dict:
+                    for k, v in enemy["stats"].items():
+                        print(f"{k}: {v}")
+                else:
+                    print(f"{k}: {v}")

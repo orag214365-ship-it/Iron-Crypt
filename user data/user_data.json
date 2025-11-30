@@ -2,10 +2,10 @@
     "name": "",
     "class": "",
     "level": 1,
-    "hp": 10,
+    "hp": 120,
     "stats": {
-        "attack": 10,
-        "defense": 3,
-        "speed": 5
+        "attack": 15,
+        "defense": 12,
+        "speed": 10
     }
 }
