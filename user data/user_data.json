@@ -1,11 +1,15 @@
 {
-    "name": "",
-    "class": "",
+    "name": "orag",
+    "class": "wildcard",
     "level": 1,
     "hp": 120,
+    "donewithcreation": 1,
     "stats": {
         "attack": 15,
         "defense": 12,
-        "speed": 10
+        "speed": 10,
+        "crit_damage": 2,
+        "luck": 5,
+        "mana": 10
     }
 }

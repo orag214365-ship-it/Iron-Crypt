@@ -1,7 +1,29 @@
-
 import random
-from variables import user_moves, invalid_command_prompt, enemy, moves, user_data, base_commands, base_command_description
-from other import close_confirmation, clear_terminal, deal_damage, damage_formula
+from Player_and_Classes.creation import user_data
+from General_Helpers.general_var import base_commands, invalid_command_prompt, base_command_description, user_moves
+from General_Helpers.general import close_confirmation, clear_terminal
+from Enemies.enemies import enemy
+from moves_var import moves
+
+
+def move_info():
+    pass
+
+
+def deal_damage(target, amount):
+    if target == 'player':
+        target == user_data
+    target["hp"] -= amount
+
+
+def damage_formula(target, defense, attack_damage, movedamage):
+    crit_chance = random.randint(0, 100)
+    if crit_chance < 5:
+        print(f"A citical hit!")
+    if target == 'player':
+        return 1 if round((movedamage + attack_damage ** 1.3) * (1 if crit_chance > 5 else 2) - (defense ** 0.9)) < 1 else round((movedamage + attack_damage ** 1.3) * (1 if crit_chance > 5 else 2) - (defense ** 0.9) * random.uniform(1.1, 1.5))
+    else:
+        return 1 if round(((movedamage + attack_damage ** 1.3) * (1 if crit_chance > 5 else 2) - (defense ** 0.9)) / 1.5) < 1 else round(((movedamage + attack_damage ** 1.3) * (1 if crit_chance > 5 else 2) - (defense ** 0.9)) / 1.5 * random.uniform(1.1, 1.5))
 
 
 def base_combat_input():
