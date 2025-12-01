@@ -17,13 +17,13 @@ def deal_damage(target, amount):
 
 
 def damage_formula(target, defense, attack_damage, movedamage):
-    crit_chance = random.randint(0, 100)
-    if crit_chance < 5:
-        print(f"A citical hit!")
-    if target == 'player':
-        return 1 if round((movedamage + attack_damage ** 1.3) * (1 if crit_chance > 5 else 2) - (defense ** 0.9)) < 1 else round((movedamage + attack_damage ** 1.3) * (1 if crit_chance > 5 else 2) - (defense ** 0.9) * random.uniform(1.1, 1.5))
-    else:
-        return 1 if round(((movedamage + attack_damage ** 1.3) * (1 if crit_chance > 5 else 2) - (defense ** 0.9)) / 1.5) < 1 else round(((movedamage + attack_damage ** 1.3) * (1 if crit_chance > 5 else 2) - (defense ** 0.9)) / 1.5 * random.uniform(1.1, 1.5))
+    crit = random.randint(0, 100)
+
+    target = user_data if target == "player" else target = enemy
+
+    crit = True if crit < user_data["stats"]["luck"] else False
+
+    return (movedamage + attack_damage ** 1.3) * (target["stats"]["crit_damage"] if crit else 1) - (defense ** 0.9)
 
 
 def base_combat_input():
